@@ -1,0 +1,86 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<bits/stdc++.h>
+#include<unordered_map>
+using namespace std;
+clock_t T;
+#define ctime cerr << "Time : " << double(clock() - T) / CLOCKS_PER_SEC << endl
+#define all(v) ((v).begin()), ((v).end())
+#define sz(v) v.size()
+#define endl "\n"
+#define deb(x)   cout << "[" <<#x << "=" << x << "]" << endl
+typedef long long ll;
+typedef vector<int> vi;
+typedef pair<int, int> pii;
+constexpr auto EPS = 1e-7;
+const int mod = (int)1e9 + 7;
+#define clr(v, d)		memset(v, d, sizeof(v))
+int dxn[] = { -1,-2,-2,-1,1,2,2,1 };
+int dyn[] = { -2,-1,1,2,2,1,-1,-2 };
+int dx[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+int dy[] = { 1, 0, -1, 0, 1, -1, 1, -1 };
+ll gcd(ll a, ll b) { return (a) ? gcd(b % a, a) : b; }
+ll lcm(ll a, ll b) { return (a * b) / gcd(a, b); }
+void nGu()
+{
+	std::ios_base::sync_with_stdio(0); cin.tie(NULL); cout.tie(NULL);
+#ifndef ONLINE_JUDGE
+	freopen("input.txt", "r", stdin);
+	// freopen("out.txt", "w", stdout);
+#endif
+}
+int key[4][3] = { {1,2,3},{4,5,6},{7,8,9},{10,0,10} };
+bool ok(int i, int j)
+{
+	return i >= 0 && i < 4 && j >= 0 && j < 3;
+}
+vector<int>al;
+map<int, int>vis;
+void solve(int i, int j, int cur)
+{
+	if (cur > 200)
+		return;
+	if (key[i][j] > 9)
+		return;
+	if (!vis[cur]) {
+		vis[cur] = 1;
+		al.push_back(cur);
+	}
+	for (int id = 0; id < 2; id++)
+	{
+		int ni = i + dx[id];
+		int nj = j + dy[id];
+		if (ok(ni, nj))
+		{
+			solve(ni, nj, cur);
+			solve(ni, nj, cur * 10 + key[i][j]);
+
+		}
+	}
+	if (cur||key[i][j])
+		solve(i, j, cur * 10 + key[i][j]);
+
+
+
+}
+int main()
+{
+	//nGu();
+	solve(0, 0, 0);
+	sort(all(al));
+	int t; cin >> t;
+	while (t--)
+	{
+		int x;
+		cin >> x;
+		auto it = lower_bound(all(al), x);
+		int gr = *it; 
+		int le = *--it;
+		//cout << gr << endl << le << endl;
+		if (abs(x - gr) < abs(x - le))
+			cout << gr << endl;
+		else
+			cout << le << endl;
+
+	}
+	
+}
