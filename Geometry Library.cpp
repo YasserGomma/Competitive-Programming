@@ -99,6 +99,7 @@ long double triangleArea3points(const point& a, const point& b, const point& c) 
 
 //count interior
 int picksTheorm(int a, int b) {
+	//a-> area   b -> polygon's vertices are grid points
 	return a - b / 2 + 1;
 }
 
